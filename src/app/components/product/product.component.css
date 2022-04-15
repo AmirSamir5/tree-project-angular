@@ -1,0 +1,117 @@
+.projects-body {
+    margin: 16px;
+  }
+  
+  button:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  
+  .no-data {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    height: 88vh !important;
+  }
+  
+  h5 {
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  
+  .icon {
+    margin-left: 8px;
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+  
+  .edit {
+    width: 20;
+    border: none;
+    background-color: transparent;
+  }
+  
+  .title-text {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  
+  label {
+    font-size: medium;
+  }
+  
+  /* Table */
+  table {
+    width: 100%;
+  }
+  
+  .mat-header-cell {
+    background: #f9fafb;
+    text-align: start;
+  }
+  
+  .mat-column-Actions {
+    text-align: end;
+    justify-content: flex-end;
+  }
+  
+  .mat-row {
+    border-bottom: 3px solid #f9fafb;
+    height: 50px !important;
+  }
+  
+  .dropdown-menu {
+    min-width: auto;
+  }
+  
+  table {
+    border-collapse: collapse;
+    border-radius: 2em;
+  }
+  
+  .custom-table {
+    border-collapse: collapse;
+    border-radius: 2em;
+    width: 100%;
+    margin-top: 26px;
+  }
+  mat-paginator {
+    border-collapse: separate;
+    border-bottom-left-radius: 2em;
+    border-bottom-right-radius: 2em;
+  }
+  
+  /* Search bar */
+  .searchbar {
+    margin-bottom: auto;
+    margin-top: auto;
+    height: 60px;
+    background-color: #353b48;
+    border-radius: 30px;
+    padding: 10px;
+  }
+  
+  .search_input {
+    color: white;
+    border: 0;
+    outline: 0;
+    background: none;
+    width: 0;
+    line-height: 40px;
+  }
+  
+  .search_icon {
+    height: 40px;
+    width: 40px;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: black;
+    text-decoration: none;
+  }
+  
