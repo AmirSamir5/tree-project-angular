@@ -43,15 +43,15 @@
           </mat-tree>
       </div>
       <div class="col">
-        <label class="title-text">Selected Variants</label>
-        <div *ngIf="this.checklistSelection.selected.length === 0">
+        <label *ngIf="this.checklistSelection.selected.length !== 0;else no_variants" class="title-text">Selected Variants</label>
+        <ng-template #no_variants>
           <img
           alt="no-data-projects"
           src="assets/images/no-data.png"
           width="50%"
           />
           <h6 class="no-variants">No Variants Selected</h6>
-        </div>
+        </ng-template>
         <div *ngFor="let item of this.checklistSelection.selected">
           <div class="col-item" *ngIf="item.expandable === false">
             <label class="parent"> {{getParentNode(item)}}</label>&ngsp;

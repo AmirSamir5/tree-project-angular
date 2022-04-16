@@ -56,12 +56,15 @@ export class ProductComponent {
       this.treeFlattener
     );
 
+    //listen to data loading for activate spinner
     productsService.spinnerLoading.subscribe(() => {
       this.isLoading = productsService.isProductLoading;
     });
 
+    //get products from firebase realtime database
     this.productsService.getProducts();
 
+    //bind data to the tree
     productsService.dataChange.subscribe((data) => {
       this.dataSource.data = data;
     });
