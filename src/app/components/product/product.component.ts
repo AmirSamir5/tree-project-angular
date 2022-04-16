@@ -17,7 +17,9 @@ import { ProductsService } from 'src/app/services/products.service';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent {
+  /* a boolean which indicates server loading */
+  isLoading = false;
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
   flatNodeMap = new Map<ProductItemFlatNode, ProductItemNode>();
 
@@ -54,6 +56,12 @@ export class ProductComponent implements OnInit {
       this.treeFlattener
     );
 
+    productsService.spinnerLoading.subscribe(() => {
+      this.isLoading = productsService.isProductLoading;
+    });
+
+    this.productsService.getProducts();
+
     productsService.dataChange.subscribe((data) => {
       this.dataSource.data = data;
     });
@@ -85,10 +93,6 @@ export class ProductComponent implements OnInit {
     return flatNode;
   };
 
-  ngOnInit(): void {
-    this.productsService.getProducts();
-  }
-
   /** Whether all the descendants of the node are selected. */
   descendantsAllSelected(node: ProductItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
@@ -119,44 +123,17 @@ export class ProductComponent implements OnInit {
 
     // Force update for the parent
     descendants.forEach((child) => this.checklistSelection.isSelected(child));
-    this.checkAllParentsSelection(node);
   }
 
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
   todoLeafItemSelectionToggle(node: ProductItemFlatNode): void {
     this.checklistSelection.toggle(node);
-    this.checkAllParentsSelection(node);
-  }
-
-  /* Checks all the parents when a leaf node is selected/unselected */
-  checkAllParentsSelection(node: ProductItemFlatNode): void {
-    let parent: ProductItemFlatNode | null = this.getParentNode(node);
-    while (parent) {
-      this.checkRootNodeSelection(parent);
-      parent = this.getParentNode(parent);
-    }
-  }
-
-  /** Check root node checked state and change it accordingly */
-  checkRootNodeSelection(node: ProductItemFlatNode): void {
-    const nodeSelected = this.checklistSelection.isSelected(node);
-    const descendants = this.treeControl.getDescendants(node);
-    const descAllSelected =
-      descendants.length > 0 &&
-      descendants.every((child) => {
-        return this.checklistSelection.isSelected(child);
-      });
-    if (nodeSelected && !descAllSelected) {
-      this.checklistSelection.deselect(node);
-    } else if (!nodeSelected && descAllSelected) {
-      this.checklistSelection.select(node);
-      this.checkAllParentsSelection(node);
-    }
   }
 
   /* Get the parent node of a node */
-  getParentNode(node: ProductItemFlatNode): ProductItemFlatNode | null {
-    const currentLevel = this.getLevel(node);
+  getParentNode(node: ProductItemFlatNode): string | null {
+    var parent = '';
+    var currentLevel = this.getLevel(node);
 
     if (currentLevel < 1) {
       return null;
@@ -168,9 +145,13 @@ export class ProductComponent implements OnInit {
       const currentNode = this.treeControl.dataNodes[i];
 
       if (this.getLevel(currentNode) < currentLevel) {
-        return currentNode;
+        parent = currentNode.item + ' - ' + parent;
+        currentLevel--;
+      }
+      if (currentLevel === 0) {
+        return parent;
       }
     }
-    return null;
+    return parent;
   }
 }

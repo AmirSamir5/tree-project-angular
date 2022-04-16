@@ -1,4 +1,35 @@
 .products-body {
-    margin: 16px;
+    margin: 32px;
+}
+
+.no-data {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    height: 88vh !important;
+  }
+
+  .title-text{
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 32px;
+  }
+
+  .parent{
+      font-weight: 400;
+      color: coral;
+  }
+
+  .child{
+      color: coral;
+      font-weight: 700;
+  }
+  .col-item {
+    background-color: brown;
+    padding: 16px;
+    border-radius: 16px;
+    width: fit-content;
+    margin: 8px;
   }
  
