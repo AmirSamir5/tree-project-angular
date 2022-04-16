@@ -1,0 +1,21 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 8px 0;
+}
+
+cdk-virtual-scroll-viewport::-webkit-scrollbar
+{
+  width: 4px;
+  background-color: #F5F5F5;
+}
+
+cdk-virtual-scroll-viewport::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  background-color: 
+  #CCCCCC;
+}

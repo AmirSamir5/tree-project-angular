@@ -7,7 +7,7 @@
     justify-content: center;
     text-align: center;
     align-items: center;
-    height: 88vh !important;
+    height: 80vh !important;
   }
 
   .title-text{
@@ -31,5 +31,8 @@
     border-radius: 16px;
     width: fit-content;
     margin: 8px;
+  }
+  .no-variants{
+    margin-left: 15%;
   }
  

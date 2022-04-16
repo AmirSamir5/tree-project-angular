@@ -43,6 +43,14 @@
       </div>
       <div class="col">
         <label class="title-text">Selected Variants</label>
+        <div *ngIf="this.checklistSelection.selected.length === 0">
+          <img
+          alt="no-data-projects"
+          src="assets/images/no-data.png"
+          width="50%"
+          />
+          <h6 class="no-variants">No Variants Selected</h6>
+        </div>
         <div *ngFor="let item of this.checklistSelection.selected">
           <div class="col-item" *ngIf="item.expandable === false">
             <label class="parent"> {{getParentNode(item)}}</label>&ngsp;

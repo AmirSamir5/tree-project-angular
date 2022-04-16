@@ -12,9 +12,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { ProfileInfoComponent } from './components/navbar/profile-info/profile-info.component';
 
 @NgModule({
-  declarations: [AppComponent, ProductComponent],
+  declarations: [
+    AppComponent,
+    ProductComponent,
+    NavbarComponent,
+    ProfileInfoComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
