@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { URLConstants } from '../helpers/constants/urls.constants';
-import { ProductModel } from '../models/product.model';
+import { ProductItemNode } from '../models/product.model';
 
 @Injectable()
 export class ProductsService {
-  readonly PRODUCTS_URL = URLConstants.BASE_URL + '/products.json';
+  readonly PRODUCTS_URL = URLConstants.BASE_URL + 'products.json';
 
   constructor(private http: HttpClient) {}
 
   //properties
-  productsArray: ProductModel[] = [];
+  product?: ProductItemNode;
   isProductLoading = false;
 
   //events
@@ -20,29 +20,49 @@ export class ProductsService {
   spinnerLoading = new EventEmitter<boolean>();
   addProductsError = new Subject<string>();
   getProductsError = new Subject<string>();
+  dataChange = new BehaviorSubject<ProductItemNode[]>([]);
+
+  //Build an array of items and children to draw the tree
+  buildFileTree(obj: { [key: string]: any }, level: number): ProductItemNode[] {
+    return Object.keys(obj).reduce<ProductItemNode[]>((accumulator, key) => {
+      const value = obj[key];
+      const node = new ProductItemNode();
+      node.item = key;
+
+      if (value != null) {
+        if (typeof value === 'object') {
+          node.children = this.buildFileTree(value, level + 1);
+        } else {
+          node.item = value;
+        }
+      }
+
+      return accumulator.concat(node);
+    }, []);
+  }
 
   //server functions
-  addProduct(product: ProductModel) {}
-
   getProducts() {
     this.startSpinner();
 
     this.http
-      .get<{ [key: string]: ProductModel }>(this.PRODUCTS_URL)
+      .get<{ [key: string]: ProductItemNode }>(this.PRODUCTS_URL)
       .pipe(
         map((responseData) => {
-          const products: ProductModel[] = [];
           for (const key in responseData) {
             if (responseData.hasOwnProperty(key)) {
-              products.push({ ...responseData[key], id: key });
+              this.product = { ...responseData[key] };
             }
           }
-          return products;
+          return this.product;
         })
       )
       .subscribe({
-        next: (products) => {
-          this.productsArray = products;
+        next: (product) => {
+          const data = this.buildFileTree(product!, 0);
+
+          // Notify the change.
+          this.dataChange.next(data);
           this.stopSpinner();
         },
         error: (error) => {

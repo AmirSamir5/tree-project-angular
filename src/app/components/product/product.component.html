@@ -1,38 +1,25 @@
-<div class="projects-body">
-    <div class="row">
-      <div class="col">
-        <label class="title-text">Projects</label>
-      </div>
-      <div class="col" *ngIf="productsArray.length !== 0">
-        <a routerLink="create-project">
-          <button class="btn btn-danger float-end shadow">
-            <label>+ Create Project</label>
-          </button>
-        </a>
-      </div>
-    </div>
-    
-    <!-- <div class="searchbar">
-      <input class="search_input" type="text" name="" placeholder="Search...">
-      <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
-    </div> -->
-    <div class="no-data" *ngIf="productsArray.length === 0 || isLoading;else other_content">
-      <div class="spinner-border text-danger float-end" style="margin-left: 16px;" role="status" *ngIf="isLoading">
-        <span class="sr-only"></span>
-      </div>
-      <div *ngIf="!isLoading">
-        <img
-        alt="no-data-projects"
-        src="assets/images/no-data.png"
-        />
-        <h5>You Have No Projects Created</h5>
-        <a>
-          <button class="btn btn-danger shadow">
-            <label>+ Create Project</label>
-          </button>
-        </a>
-      </div>
-    </div>
-    <ng-template #other_content></ng-template>
-    
-  </div>
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+    <button mat-icon-button disabled></button>
+    <mat-checkbox class="checklist-leaf-node"
+                  [checked]="checklistSelection.isSelected(node)"
+                  (change)="todoLeafItemSelectionToggle(node)">{{node.item}}</mat-checkbox>
+  </mat-tree-node>
+
+  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+    <button mat-icon-button matTreeNodeToggle
+            [attr.aria-label]="'Toggle ' + node.item">
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+      </mat-icon>
+    </button>
+    <mat-checkbox [checked]="descendantsAllSelected(node)"
+                  [indeterminate]="descendantsPartiallySelected(node)"
+                  (change)="todoItemSelectionToggle(node)">{{node.item}}</mat-checkbox>
+  </mat-tree-node>
+</mat-tree>
+
+<div *ngFor="let item of this.checklistSelection.selected">
+  <label *ngIf="item.level !== 0"> {{ item.item }} </label>
+</div>
+

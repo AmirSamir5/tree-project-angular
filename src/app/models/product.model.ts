@@ -1,7 +1,11 @@
-import { BrandModel } from './brand.model';
+export class ProductItemNode {
+  children: ProductItemNode[] = [];
+  item: string = '';
+}
 
-export interface ProductModel {
-  id?: string;
-  name?: string;
-  brand?: BrandModel[];
+/** Flat to-do item node with expandable and level information */
+export class ProductItemFlatNode {
+  item: string = '';
+  level: number = 0;
+  expandable: boolean = false;
 }
