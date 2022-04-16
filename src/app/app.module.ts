@@ -14,6 +14,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfileInfoComponent } from './components/navbar/profile-info/profile-info.component';
+import { ReversePipe } from './helpers/pipes/reverse.pipe';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ProfileInfoComponent } from './components/navbar/profile-info/profile-i
     ProductComponent,
     NavbarComponent,
     ProfileInfoComponent,
+    ReversePipe,
   ],
   imports: [
     BrowserModule,
